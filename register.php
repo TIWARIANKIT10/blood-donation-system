@@ -36,9 +36,45 @@
     <textarea name="address" required></textarea><br>
     
 
-    <button type="submit">submit</button>
+    <button type="submit"  name="submit" value="qqq">submit</button>
 
     </form>
     
 </body>
 </html>
+<?php
+include "config/db.php";
+
+if (isset($_POST["submit"])) {
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $password_hashs = password_hash($password, PASSWORD_BCRYPT);
+
+    $query = "SELECT * FROM users WHERE email = ?";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        echo "Email already used to register.";
+    } else {
+        $name = $_POST["name"];
+        $blood_group = $_POST["blood_group"];
+        $phone = $_POST["phone"];
+        $address = $_POST["address"];
+
+        $query = "INSERT INTO users (id, name, email, password, blood_group, phone, address) VALUES (NULL, ?, ?, ?, ?, ?, ?)";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param("ssssss", $name, $email, $password_hashs, $blood_group, $phone, $address);
+
+        if ($stmt->execute()) {
+            echo "Register successfully.";
+        } else {
+            echo "Failed to register: " . $stmt->error;
+        }
+    }
+} else {
+    echo "No form submission detected.";
+}
+?>
