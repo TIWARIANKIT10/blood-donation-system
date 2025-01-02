@@ -24,16 +24,35 @@
 <?php
 include "config/db.php";
 session_start();
-if($_SERVER['REQUEST_METHOD']=='POST'){
+if(isset($_POST["submit"])){
 
     $username= $_POST["email"];
    $password = $_POST["password"];
 
    $query = "SELECT * FROM USERS WHERE email=?";
    $stmt = $con->prepare($query);
-   $stmt->bind_params('s',$usename);
+   $stmt->bind_param("s",$username);
    $stmt->execute();
-   $result = $
+   $result = $stmt->get_result(); 
+  
+   
+   if($result->num_rows  > 0){
+    $user = $result->fetch_assoc();
+   
+    if(password_verify($password, $user["password"])){
+       $_SESSION["user_id"]= $user["id"];
+       $_SESSION["name"] = $user["name"];
+       $_SESSION["user_role"] =$user["role"];
+       echo "login completed";
+
+
+    }else{
+        echo"incorrect password";
+    } 
+
+    }else{
+        echo"user not found";
+   }
 
 }
 
