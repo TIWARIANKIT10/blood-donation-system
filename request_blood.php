@@ -27,7 +27,7 @@ if(isset($_SESSION['role'])){
 <input type="number" name="number_units" require><br>
 
 <label for="reason" > reason </label>
-<textarea name="reason"  required></textarea>
+<textarea name="reason"  required></textarea><br>
 
 <button type="submit">submit request </button>
 
