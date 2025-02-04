@@ -4,19 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>user register </title>
+    <link rel="stylesheet" href="css/register.css">
 </head>
 <body>
+    <div>
+
+<h1 id="heading">  Register For BLOOD DONATION SYSTEM  </h1>
+
+<div id="formdiv">
+
+
     <form action="register.php" method="post">
 
+    
+    <div class="form-group">
     <label for="name">Name:</label>
     <input type="text" name="name" required> <br>
+    </div>
 
+    <div class="form-group">
     <label for="email">Email:</label>
     <input type="email" name="email" required> <br>
+    </div>
 
+    <div class="form-group">
     <label for="password">Password:</label>
     <input type="password" name="password" required> <br>
-
+    </div>
+     
+    <div class="form-group">
     <label for="blood_group" > Blood_group:</label>
         <select name="blood_group" >
             <option value="a+">a+</option>
@@ -28,24 +44,33 @@
             <option value="ab+">ab+</option>
             <option value="ab-">ab-</option>
         </select><br>
- 
+        </div>
+         
+        <div class="form-group">
         <label for="phone">Phone:</label>
     <input type="text" name="phone" required><br>
-
+    </div>
+      
+    <div class="form-group">
     <label for="address">Address:</label>
     <textarea name="address" required></textarea><br>
-    
+    </div>
+       
 
+    <div class="form-group">
     <button type="submit"  name="submit" value="qqq">submit</button>
+    </div>
 
     </form>
+     </div>
+    </div>
     
 </body>
 </html>
 <?php
 include "config/db.php";
 
-if (isset($_POST["submit"])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST["email"];
     $password = $_POST["password"];
     $password_hashs = password_hash($password, PASSWORD_BCRYPT);
@@ -70,11 +95,12 @@ if (isset($_POST["submit"])) {
 
         if ($stmt->execute()) {
             echo "Register successfully.";
+            header("Location:index.php");
         } else {
             echo "Failed to register: " . $stmt->error;
         }
     }
 } else {
-    echo "No form submission detected.";
+    echo "";
 }
 ?>

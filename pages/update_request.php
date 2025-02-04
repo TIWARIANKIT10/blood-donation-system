@@ -12,12 +12,12 @@ if (isset($_GET['id']) && isset($_GET['status'])) {
     $status = $_GET['status'];
 
     $query = "UPDATE blood_requests SET status = ? WHERE id = ?";
-    $stmt = $conn->prepare($query);
+    $stmt = $con->prepare($query);
     $stmt->bind_param("si", $status, $id);
 
     if ($stmt->execute()) {
         echo "Request status updated successfully!";
-        header('Location: manage_requests.php');
+        header('Location: ../dashboard.php');
     } else {
         echo "Error: " . $stmt->error;
     }
